@@ -20,18 +20,25 @@ class TestProvider extends ChangeNotifier {
   List<DiagnosticTestModel> getTestsForOrg(String orgId) => _orgTests[orgId] ?? [];
 
   Future<void> fetchTestsForOrganizations(List<OrganizationModel> orgs) async {
-    _isLoading = true;
+    // Stale-while-revalidate: only show a skeleton on the first load.
+    if (_orgTests.isEmpty) {
+      _isLoading = true;
+      notifyListeners();
+    }
     _error = null;
-    notifyListeners();
 
     try {
-      _orgTests = {};
-      for (final org in orgs) {
-        final snapshot = await _firestoreService.getCollection('organizations/${org.id}/tests');
-        _orgTests[org.id] = snapshot.docs
-            .map((doc) => DiagnosticTestModel.fromFirestore(doc, org.id))
-            .toList();
+      // One collectionGroup query fetches every org's test catalogue in a
+      // single round-trip, instead of one request per org.
+      final orgIds = orgs.map((o) => o.id).toSet();
+      final snapshot = await _firestoreService.getCollectionGroup('tests');
+      final map = {for (final id in orgIds) id: <DiagnosticTestModel>[]};
+      for (final doc in snapshot.docs) {
+        final orgId = doc.reference.parent.parent?.id;
+        if (orgId == null || !map.containsKey(orgId)) continue;
+        map[orgId]!.add(DiagnosticTestModel.fromFirestore(doc, orgId));
       }
+      _orgTests = map;
     } catch (e) {
       _error = 'Failed to load tests: $e';
     }

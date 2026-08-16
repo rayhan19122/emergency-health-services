@@ -33,6 +33,12 @@ migrate_working_dir/
 /build/
 /coverage/
 
+# Firebase Hosting deploy cache
+.firebase/
+
+# Claude Code
+.claude/
+
 # Symbolication related
 app.*.symbols
 

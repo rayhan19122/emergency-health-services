@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../providers/location_provider.dart';
 import '../../../providers/organization_provider.dart';
 import '../../../shared/widgets/price_widget.dart';
+import '../../../shared/widgets/skeleton_loader.dart';
 import '../../../shared/widgets/sort_filter_bar.dart';
 import '../providers/test_provider.dart';
 
@@ -31,11 +32,19 @@ class _TestSearchScreenState extends State<TestSearchScreen> {
     final testProvider = context.read<TestProvider>();
     final locationProvider = context.read<LocationProvider>();
 
-    await locationProvider.getCurrentLocation();
+    // Load data first so the page renders even if location is slow or denied.
     await orgProvider.fetchVerifiedOrganizations(type: 'hospital');
     await testProvider.fetchTestsForOrganizations(orgProvider.organizations);
-
     if (mounted) setState(() => _dataLoaded = true);
+
+    // Location + road distances are a non-blocking enhancement for distance sorting.
+    await locationProvider.getCurrentLocation();
+    if (locationProvider.hasLocation) {
+      final destinations = orgProvider.organizations
+          .map((o) => (lat: o.latitude, lng: o.longitude, id: o.id))
+          .toList();
+      await locationProvider.fetchRoadDistances(destinations);
+    }
   }
 
   void _onSearch(String query) {
@@ -58,8 +67,8 @@ class _TestSearchScreenState extends State<TestSearchScreen> {
 
     if (_sortOption == SortOption.distance && locationProvider.hasLocation) {
       results.sort((a, b) {
-        final dA = locationProvider.distanceTo(a.organization.latitude, a.organization.longitude) ?? double.infinity;
-        final dB = locationProvider.distanceTo(b.organization.latitude, b.organization.longitude) ?? double.infinity;
+        final dA = locationProvider.distanceTo(a.organization.latitude, a.organization.longitude, orgId: a.organization.id) ?? double.infinity;
+        final dB = locationProvider.distanceTo(b.organization.latitude, b.organization.longitude, orgId: b.organization.id) ?? double.infinity;
         return dA.compareTo(dB);
       });
     } else if (_sortOption == SortOption.priceLowHigh) {
@@ -105,7 +114,7 @@ class _TestSearchScreenState extends State<TestSearchScreen> {
               ),
               const SizedBox(height: 16),
               if (!_dataLoaded)
-                const Center(child: Padding(padding: EdgeInsets.all(48), child: CircularProgressIndicator()))
+                const ListingSkeletonList()
               else if (_searchController.text.isEmpty)
                 Center(
                   child: Padding(
@@ -128,7 +137,7 @@ class _TestSearchScreenState extends State<TestSearchScreen> {
                 )
               else
                 ...results.map((result) {
-                  final distance = locationProvider.distanceTo(result.organization.latitude, result.organization.longitude);
+                  final distance = locationProvider.distanceTo(result.organization.latitude, result.organization.longitude, orgId: result.organization.id);
 
                   return Card(
                     margin: const EdgeInsets.only(bottom: 12),
