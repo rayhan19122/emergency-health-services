@@ -36,6 +36,9 @@ migrate_working_dir/
 # Firebase Hosting deploy cache
 .firebase/
 
+# Claude Code
+.claude/
+
 # Symbolication related
 app.*.symbols
 
