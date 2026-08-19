@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../../../../config/theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -144,13 +145,13 @@ class _ManageTestsScreenState extends State<ManageTestsScreen> {
                             margin: const EdgeInsets.only(bottom: 12),
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                              color: Colors.red.shade50,
+                              color: AppTheme.dangerBg,
                               borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: Colors.red.shade200),
+                              border: Border.all(color: AppTheme.dangerBorder),
                             ),
                             child: Text(
                               'Live queue unavailable: ${snapshot.error}',
-                              style: TextStyle(color: Colors.red.shade800),
+                              style: TextStyle(color: AppTheme.danger),
                             ),
                           ),
                         ...tests.map((test) {
@@ -192,13 +193,13 @@ class _ManageTestsScreenState extends State<ManageTestsScreen> {
                                     Icon(
                                       Icons.timer,
                                       size: 14,
-                                      color: Colors.grey.shade500,
+                                      color: AppTheme.textTertiary,
                                     ),
                                     const SizedBox(width: 4),
                                     Text(
                                       test.turnaroundTime,
                                       style: TextStyle(
-                                        color: Colors.grey.shade500,
+                                        color: AppTheme.textTertiary,
                                         fontSize: 13,
                                       ),
                                     ),
@@ -208,13 +209,13 @@ class _ManageTestsScreenState extends State<ManageTestsScreen> {
                                     Icon(
                                       Icons.home,
                                       size: 14,
-                                      color: Colors.green.shade700,
+                                      color: AppTheme.success,
                                     ),
                                     const SizedBox(width: 4),
                                     Text(
                                       'Home',
                                       style: TextStyle(
-                                        color: Colors.green.shade700,
+                                        color: AppTheme.success,
                                         fontSize: 13,
                                       ),
                                     ),
@@ -241,7 +242,7 @@ class _ManageTestsScreenState extends State<ManageTestsScreen> {
                                   IconButton(
                                     icon: const Icon(
                                       Icons.delete,
-                                      color: Colors.red,
+                                      color: AppTheme.danger,
                                     ),
                                     tooltip: hasActiveQueue
                                         ? 'Complete today\'s queue before deleting'
@@ -360,7 +361,7 @@ class _QueueCountBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: (available ? Colors.purple : Colors.red).withValues(alpha: 0.1),
+        color: (available ? AppTheme.accentViolet : AppTheme.danger).withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(999),
       ),
       child: Text(
@@ -370,7 +371,7 @@ class _QueueCountBadge extends StatelessWidget {
             ? '$remaining/$capacity available • $waiting waiting'
             : 'Connecting queue...',
         style: TextStyle(
-          color: available ? Colors.purple.shade700 : Colors.red.shade700,
+          color: available ? AppTheme.accentViolet : AppTheme.danger,
           fontSize: 12,
           fontWeight: FontWeight.w600,
         ),
@@ -490,7 +491,7 @@ class _TestFormDialogState extends State<_TestFormDialog> {
                     padding: const EdgeInsets.only(top: 8),
                     child: Text(
                       'No tests are available. Ask the super admin to add tests to the master catalog.',
-                      style: TextStyle(color: Colors.orange.shade800),
+                      style: TextStyle(color: AppTheme.warning),
                     ),
                   ),
                 const SizedBox(height: 12),

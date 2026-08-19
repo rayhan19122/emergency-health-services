@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../config/theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -7,6 +8,7 @@ import '../../../providers/location_provider.dart';
 import '../../../providers/organization_provider.dart';
 import '../../../shared/widgets/price_widget.dart';
 import '../../../shared/widgets/skeleton_loader.dart';
+import '../../../shared/widgets/empty_state.dart';
 import '../../../shared/widgets/sort_filter_bar.dart';
 import '../providers/test_provider.dart';
 
@@ -91,7 +93,7 @@ class _TestSearchScreenState extends State<TestSearchScreen> {
     }
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(24),
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 900),
@@ -107,7 +109,7 @@ class _TestSearchScreenState extends State<TestSearchScreen> {
               const SizedBox(height: 4),
               Text(
                 'Search for tests and compare prices across hospitals',
-                style: TextStyle(color: Colors.grey.shade600),
+                style: TextStyle(color: AppTheme.textSecondary),
               ),
               const SizedBox(height: 16),
               TextField(
@@ -124,7 +126,6 @@ class _TestSearchScreenState extends State<TestSearchScreen> {
                           },
                         )
                       : null,
-                  border: const OutlineInputBorder(),
                 ),
                 onChanged: _onSearch,
               ),
@@ -137,35 +138,16 @@ class _TestSearchScreenState extends State<TestSearchScreen> {
               if (!_dataLoaded)
                 const ListingSkeletonList()
               else if (_searchController.text.isEmpty)
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(48),
-                    child: Column(
-                      children: [
-                        Icon(
-                          Icons.science,
-                          size: 64,
-                          color: Colors.grey.shade300,
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          'Search for a test to see results',
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(color: Colors.grey.shade500),
-                        ),
-                      ],
-                    ),
-                  ),
+                const EmptyState(
+                  icon: Icons.science_outlined,
+                  title: 'Search for a test to see results',
+                  message: 'Type a test name to compare prices across facilities.',
                 )
               else if (results.isEmpty)
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(48),
-                    child: Text(
-                      'No tests found matching "${_searchController.text}"',
-                      style: TextStyle(color: Colors.grey.shade500),
-                    ),
-                  ),
+                EmptyState(
+                  icon: Icons.search_off_rounded,
+                  title: 'No tests found',
+                  message: 'Nothing matched "${_searchController.text}". Try a different term.',
                 )
               else
                 ...results.map((result) {
@@ -192,16 +174,13 @@ class _TestSearchScreenState extends State<TestSearchScreen> {
                                 children: [
                                   Text(
                                     result.test.testName,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                    ),
+                                    style: Theme.of(context).textTheme.titleMedium,
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
                                     result.organization.name,
                                     style: TextStyle(
-                                      color: Colors.grey.shade700,
+                                      color: AppTheme.textSecondary,
                                     ),
                                   ),
                                   Row(
@@ -209,14 +188,14 @@ class _TestSearchScreenState extends State<TestSearchScreen> {
                                       Icon(
                                         Icons.location_on,
                                         size: 14,
-                                        color: Colors.grey.shade500,
+                                        color: AppTheme.textTertiary,
                                       ),
                                       const SizedBox(width: 4),
                                       Expanded(
                                         child: Text(
                                           result.organization.address,
                                           style: TextStyle(
-                                            color: Colors.grey.shade500,
+                                            color: AppTheme.textTertiary,
                                             fontSize: 13,
                                           ),
                                         ),
@@ -227,7 +206,7 @@ class _TestSearchScreenState extends State<TestSearchScreen> {
                                             distance,
                                           ),
                                           style: TextStyle(
-                                            color: Colors.grey.shade500,
+                                            color: AppTheme.textTertiary,
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500,
                                           ),
@@ -262,7 +241,7 @@ class _TestSearchScreenState extends State<TestSearchScreen> {
                                           avatar: const Icon(
                                             Icons.home,
                                             size: 16,
-                                            color: Colors.green,
+                                            color: AppTheme.success,
                                           ),
                                           label: Text(
                                             result.test.homeCollectionSurcharge !=
@@ -286,7 +265,7 @@ class _TestSearchScreenState extends State<TestSearchScreen> {
                                 IconButton(
                                   icon: const Icon(
                                     Icons.phone,
-                                    color: Colors.green,
+                                    color: AppTheme.success,
                                   ),
                                   tooltip: 'Call ${result.organization.phone}',
                                   onPressed: () => launchUrl(
@@ -298,7 +277,7 @@ class _TestSearchScreenState extends State<TestSearchScreen> {
                                 ),
                                 Icon(
                                   Icons.chevron_right,
-                                  color: Colors.grey.shade400,
+                                  color: AppTheme.textTertiary,
                                 ),
                               ],
                             ),

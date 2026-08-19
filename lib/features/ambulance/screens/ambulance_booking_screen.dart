@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import '../../../config/theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -279,7 +280,7 @@ class _AmbulanceBookingScreenState extends State<AmbulanceBookingScreen> {
                     Text(
                       _operator!.name,
                       style: TextStyle(
-                        color: Colors.grey.shade600,
+                        color: AppTheme.textSecondary,
                         fontSize: 16,
                       ),
                     ),
@@ -311,7 +312,7 @@ class _AmbulanceBookingScreenState extends State<AmbulanceBookingScreen> {
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.orange.shade50,
+                          color: AppTheme.warningBg,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Row(
@@ -476,7 +477,7 @@ class _AmbulanceBookingScreenState extends State<AmbulanceBookingScreen> {
                     Text(
                       'The operator will confirm your trip and contact you with details.',
                       style: TextStyle(
-                        color: Colors.grey.shade500,
+                        color: AppTheme.textTertiary,
                         fontSize: 12,
                       ),
                       textAlign: TextAlign.center,

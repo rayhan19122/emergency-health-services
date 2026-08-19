@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../config/theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -336,7 +337,7 @@ class _BedRequestsScreenState extends State<BedRequestsScreen> {
                                   OutlinedButton(
                                     onPressed: () => _reject(booking),
                                     style: OutlinedButton.styleFrom(
-                                      foregroundColor: Colors.red,
+                                      foregroundColor: AppTheme.danger,
                                     ),
                                     child: const Text('Reject'),
                                   ),
@@ -356,7 +357,7 @@ class _BedRequestsScreenState extends State<BedRequestsScreen> {
                                   FilledButton(
                                     onPressed: () => _admit(booking),
                                     style: FilledButton.styleFrom(
-                                      backgroundColor: Colors.green,
+                                      backgroundColor: AppTheme.success,
                                     ),
                                     child: const Text('Mark as Admitted'),
                                   ),

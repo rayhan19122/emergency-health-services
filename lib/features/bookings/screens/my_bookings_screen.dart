@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../config/theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -65,13 +66,13 @@ class _MyBookingsScreenState extends State<MyBookingsScreen> {
   Color _typeColor(String type) {
     switch (type) {
       case 'bed':
-        return Colors.blue;
+        return AppTheme.info;
       case 'ambulance':
-        return Colors.orange;
+        return AppTheme.warning;
       case 'blood':
-        return Colors.red;
+        return AppTheme.danger;
       case 'test':
-        return Colors.purple;
+        return AppTheme.accentViolet;
       default:
         return Colors.grey;
     }
@@ -130,18 +131,18 @@ class _MyBookingsScreenState extends State<MyBookingsScreen> {
                             Icon(
                               Icons.list_alt,
                               size: 64,
-                              color: Colors.grey.shade300,
+                              color: AppTheme.textTertiary,
                             ),
                             const SizedBox(height: 16),
                             Text(
                               'No bookings yet',
                               style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(color: Colors.grey.shade500),
+                                  ?.copyWith(color: AppTheme.textTertiary),
                             ),
                             const SizedBox(height: 8),
                             Text(
                               'Your booking requests will appear here',
-                              style: TextStyle(color: Colors.grey.shade400),
+                              style: TextStyle(color: AppTheme.textTertiary),
                             ),
                           ],
                         ),
@@ -194,7 +195,7 @@ class _MyBookingsScreenState extends State<MyBookingsScreen> {
                               Text(
                                 timeago.format(booking.createdAt),
                                 style: TextStyle(
-                                  color: Colors.grey.shade500,
+                                  color: AppTheme.textTertiary,
                                   fontSize: 12,
                                 ),
                               ),
@@ -235,19 +236,19 @@ class _LiveIndicator extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.green.shade50,
+        color: AppTheme.successBg,
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: Colors.green.shade200),
+        border: Border.all(color: AppTheme.successBorder),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.circle, size: 8, color: Colors.green.shade600),
+          Icon(Icons.circle, size: 8, color: AppTheme.success),
           const SizedBox(width: 6),
           Text(
             'Live',
             style: TextStyle(
-              color: Colors.green.shade800,
+              color: AppTheme.success,
               fontWeight: FontWeight.w600,
               fontSize: 12,
             ),

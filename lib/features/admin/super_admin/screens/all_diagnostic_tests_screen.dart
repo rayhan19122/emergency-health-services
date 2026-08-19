@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../config/theme.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../features/tests/providers/test_provider.dart';
@@ -166,7 +167,7 @@ class _AllDiagnosticTestsScreenState extends State<AllDiagnosticTestsScreen> {
             child: const Text('Cancel'),
           ),
           FilledButton(
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            style: FilledButton.styleFrom(backgroundColor: AppTheme.danger),
             onPressed: () => Navigator.pop(ctx, true),
             child: const Text('Delete'),
           ),
@@ -227,7 +228,7 @@ class _AllDiagnosticTestsScreenState extends State<AllDiagnosticTestsScreen> {
                           ),
                           Text(
                             '${provider.catalog.length} tests • $activeCount available to hospital admins',
-                            style: TextStyle(color: Colors.grey.shade600),
+                            style: TextStyle(color: AppTheme.textSecondary),
                           ),
                         ],
                       ),
@@ -254,7 +255,7 @@ class _AllDiagnosticTestsScreenState extends State<AllDiagnosticTestsScreen> {
                     width: double.infinity,
                     margin: const EdgeInsets.only(bottom: 12),
                     padding: const EdgeInsets.all(12),
-                    color: Colors.red.shade50,
+                    color: AppTheme.dangerBg,
                     child: Text(_error!),
                   ),
                 if (_isLoading || provider.catalogLoading)
@@ -320,10 +321,10 @@ class _CatalogTestCard extends StatelessWidget {
         leading: CircleAvatar(
           backgroundColor: test.active
               ? Colors.purple.shade50
-              : Colors.grey.shade200,
+              : AppTheme.surfaceBorder,
           child: Icon(
             Icons.science,
-            color: test.active ? Colors.purple : Colors.grey,
+            color: test.active ? AppTheme.accentViolet : Colors.grey,
           ),
         ),
         title: Text(
@@ -340,7 +341,7 @@ class _CatalogTestCard extends StatelessWidget {
           children: [
             Switch(value: test.active, onChanged: onActiveChanged),
             IconButton(
-              icon: Icon(Icons.delete_outline, color: Colors.red.shade400),
+              icon: Icon(Icons.delete_outline, color: AppTheme.danger),
               tooltip: 'Delete permanently',
               onPressed: onDelete,
             ),

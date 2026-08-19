@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import '../../../config/theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -215,14 +216,14 @@ class _BedBookingScreenState extends State<BedBookingScreen> {
                     Text(
                       _hospital!.name,
                       style: TextStyle(
-                        color: Colors.grey.shade600,
+                        color: AppTheme.textSecondary,
                         fontSize: 16,
                       ),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       _hospital!.address,
-                      style: TextStyle(color: Colors.grey.shade500),
+                      style: TextStyle(color: AppTheme.textTertiary),
                     ),
                     const Divider(height: 32),
                     DropdownButtonFormField<String>(
@@ -260,7 +261,7 @@ class _BedBookingScreenState extends State<BedBookingScreen> {
                           return Container(
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                              color: Colors.blue.shade50,
+                              color: AppTheme.infoBg,
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Row(
@@ -268,7 +269,7 @@ class _BedBookingScreenState extends State<BedBookingScreen> {
                               children: [
                                 Text(
                                   '${bed.availableBeds} beds available',
-                                  style: TextStyle(color: Colors.blue.shade700),
+                                  style: TextStyle(color: AppTheme.info),
                                 ),
                                 EstimatedPriceWidget(
                                   price: bed.pricePerDay,
@@ -328,7 +329,7 @@ class _BedBookingScreenState extends State<BedBookingScreen> {
                     Text(
                       'The hospital will review your request and call you to verify before confirming.',
                       style: TextStyle(
-                        color: Colors.grey.shade500,
+                        color: AppTheme.textTertiary,
                         fontSize: 12,
                       ),
                       textAlign: TextAlign.center,

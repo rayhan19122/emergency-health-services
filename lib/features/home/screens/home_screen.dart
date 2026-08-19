@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../config/theme.dart';
 import '../../../shared/widgets/app_animations.dart';
+import '../../../shared/widgets/app_banner.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -56,7 +57,7 @@ class _HeroSection extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                   decoration: BoxDecoration(
                     color: AppTheme.surface,
-                    borderRadius: BorderRadius.circular(100),
+                    borderRadius: BorderRadius.circular(999),
                     border: Border.all(color: AppTheme.surfaceBorder),
                     boxShadow: AppTheme.cardShadow,
                   ),
@@ -325,7 +326,7 @@ class _ServiceCard extends StatelessWidget {
                           end: Alignment.bottomRight,
                           colors: gradient,
                         ),
-                        borderRadius: BorderRadius.circular(14),
+                        borderRadius: BorderRadius.circular(16),
                       ),
                       child: Icon(icon, size: 30, color: Colors.white),
                     ),
@@ -427,7 +428,7 @@ class _Step extends StatelessWidget {
                 padding: const EdgeInsets.all(18),
                 decoration: BoxDecoration(
                   color: AppTheme.primary.withValues(alpha: 0.08),
-                  borderRadius: BorderRadius.circular(18),
+                  borderRadius: BorderRadius.circular(16),
                 ),
                 child: Icon(icon, size: 30, color: AppTheme.primary),
               ),
@@ -470,26 +471,9 @@ class _DisclaimerBanner extends StatelessWidget {
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 900),
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: AppTheme.primary.withValues(alpha: 0.06),
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: AppTheme.primary.withValues(alpha: 0.15)),
-            ),
-            child: const Row(
-              children: [
-                Icon(Icons.info_outline_rounded, color: AppTheme.primary),
-                SizedBox(width: 14),
-                Expanded(
-                  child: Text(
-                    'All prices shown are estimates provided by the organizations. '
-                    'The platform assists coordination — it does not replace medical or dispatch judgment.',
-                    style: TextStyle(color: AppTheme.textSecondary, fontSize: 13.5, height: 1.5),
-                  ),
-                ),
-              ],
-            ),
+          child: const AppBanner.info(
+            'All prices shown are estimates provided by the organizations. '
+            'The platform assists coordination — it does not replace medical or dispatch judgment.',
           ),
         ),
       ),

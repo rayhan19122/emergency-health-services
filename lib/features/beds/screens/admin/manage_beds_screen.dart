@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../config/theme.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../models/bed_type_model.dart';
@@ -186,7 +187,7 @@ class _ManageBedsScreenState extends State<ManageBedsScreen> {
                                     IconButton(
                                       icon: const Icon(
                                         Icons.delete,
-                                        color: Colors.red,
+                                        color: AppTheme.danger,
                                       ),
                                       onPressed: () async {
                                         final organizationId = _orgId;
@@ -261,12 +262,12 @@ class _InfoChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: Colors.grey.shade100,
-        borderRadius: BorderRadius.circular(6),
+        color: AppTheme.background,
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Text(
         text,
-        style: TextStyle(fontSize: 12, color: Colors.grey.shade700),
+        style: TextStyle(fontSize: 12, color: AppTheme.textSecondary),
       ),
     );
   }

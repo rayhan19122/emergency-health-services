@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../config/theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -195,7 +196,7 @@ class _DiagnosticQueueOverviewScreenState
                     children: [
                       Text(
                         'Live patient serials and test progress',
-                        style: TextStyle(color: Colors.grey.shade600),
+                        style: TextStyle(color: AppTheme.textSecondary),
                       ),
                       const SizedBox(width: 10),
                       const _LiveBadge(),
@@ -210,7 +211,7 @@ class _DiagnosticQueueOverviewScreenState
                         label: 'Waiting',
                         value: waiting.length,
                         icon: Icons.people_alt_outlined,
-                        color: Colors.orange,
+                        color: AppTheme.warning,
                         selected: _status == 'waiting',
                         onTap: () => _selectStatus('waiting'),
                       ),
@@ -218,7 +219,7 @@ class _DiagnosticQueueOverviewScreenState
                         label: 'Called',
                         value: called.length,
                         icon: Icons.campaign_outlined,
-                        color: Colors.blue,
+                        color: AppTheme.info,
                         selected: _status == 'called',
                         onTap: () => _selectStatus('called'),
                       ),
@@ -226,7 +227,7 @@ class _DiagnosticQueueOverviewScreenState
                         label: 'Completed',
                         value: completed.length,
                         icon: Icons.task_alt,
-                        color: Colors.green,
+                        color: AppTheme.success,
                         selected: _status == 'completed',
                         onTap: () => _selectStatus('completed'),
                       ),
@@ -407,15 +408,15 @@ class _OverviewQueueCard extends StatelessWidget {
               if (booking.estimatedArrivalTime != null)
                 Text(
                   'Estimated arrival: ${DateFormat('d MMM, h:mm a').format(booking.estimatedArrivalTime!)}',
-                  style: TextStyle(color: Colors.grey.shade600),
+                  style: TextStyle(color: AppTheme.textSecondary),
                 ),
               if (_timestamp != null)
                 Text(
                   '${booking.isConfirmed ? 'Called' : 'Completed'}: $_timestamp',
                   style: TextStyle(
                     color: booking.isConfirmed
-                        ? Colors.blue.shade700
-                        : Colors.green.shade700,
+                        ? AppTheme.info
+                        : AppTheme.success,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -457,7 +458,7 @@ class _OverviewQueueCard extends StatelessWidget {
 
     return Card(
       margin: const EdgeInsets.only(bottom: 10),
-      color: booking.isConfirmed ? Colors.blue.withValues(alpha: 0.06) : null,
+      color: booking.isConfirmed ? AppTheme.info.withValues(alpha: 0.06) : null,
       child: InkWell(
         onTap: onOpen,
         borderRadius: BorderRadius.circular(12),
@@ -494,13 +495,13 @@ class _LiveBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: Colors.green.shade50,
+        color: AppTheme.successBg,
         borderRadius: BorderRadius.circular(999),
       ),
       child: Text(
         'LIVE',
         style: TextStyle(
-          color: Colors.green.shade700,
+          color: AppTheme.success,
           fontSize: 11,
           fontWeight: FontWeight.bold,
         ),

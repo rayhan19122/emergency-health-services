@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../config/theme.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../models/blood_stock_model.dart';
@@ -148,7 +149,7 @@ class _ManageBloodStockScreenState extends State<ManageBloodStockScreen> {
                               width: 60,
                               height: 60,
                               decoration: BoxDecoration(
-                                color: Colors.red.shade50,
+                                color: AppTheme.dangerBg,
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Center(
@@ -157,7 +158,7 @@ class _ManageBloodStockScreenState extends State<ManageBloodStockScreen> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
-                                    color: Colors.red.shade700,
+                                    color: AppTheme.danger,
                                   ),
                                 ),
                               ),

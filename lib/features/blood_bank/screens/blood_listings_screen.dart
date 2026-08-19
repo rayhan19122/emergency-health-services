@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import '../../../config/theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../providers/location_provider.dart';
 import '../../../providers/organization_provider.dart';
 import '../../../shared/widgets/availability_badge.dart';
+import '../../../shared/widgets/empty_state.dart';
 import '../../../shared/widgets/map_view.dart';
 import '../../../shared/widgets/price_widget.dart';
 import '../../../shared/widgets/skeleton_loader.dart';
@@ -66,7 +68,7 @@ class _BloodListingsScreenState extends State<BloodListingsScreen> {
     }
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(24),
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 900),
@@ -75,7 +77,7 @@ class _BloodListingsScreenState extends State<BloodListingsScreen> {
             children: [
               Text('Emergency Blood Bank', style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold)),
               const SizedBox(height: 4),
-              Text('Find matching blood units nearby', style: TextStyle(color: Colors.grey.shade600)),
+              Text('Find matching blood units nearby', style: TextStyle(color: AppTheme.textSecondary)),
               const SizedBox(height: 16),
               SortFilterBar(
                 currentSort: _sortOption,
@@ -111,17 +113,10 @@ class _BloodListingsScreenState extends State<BloodListingsScreen> {
               if (isLoading)
                 const ListingSkeletonList()
               else if (orgs.isEmpty)
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(48),
-                    child: Column(
-                      children: [
-                        Icon(Icons.bloodtype, size: 64, color: Colors.grey.shade300),
-                        const SizedBox(height: 16),
-                        Text('No blood banks found nearby', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey.shade500)),
-                      ],
-                    ),
-                  ),
+                const EmptyState(
+                  icon: Icons.bloodtype_outlined,
+                  title: 'No blood banks found nearby',
+                  message: 'Try adjusting your filters or check back shortly.',
                 )
               else
                 ...orgs.map((org) {
@@ -148,17 +143,17 @@ class _BloodListingsScreenState extends State<BloodListingsScreen> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(org.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                                      Text(org.name, style: Theme.of(context).textTheme.titleMedium),
                                       Row(
                                         children: [
-                                          Icon(Icons.location_on, size: 14, color: Colors.grey.shade500),
+                                          Icon(Icons.location_on, size: 14, color: AppTheme.textTertiary),
                                           const SizedBox(width: 4),
-                                          Expanded(child: Text(org.address, style: TextStyle(color: Colors.grey.shade600, fontSize: 13))),
+                                          Expanded(child: Text(org.address, style: TextStyle(color: AppTheme.textSecondary, fontSize: 13))),
                                           if (distance != null) ...[
                                             const SizedBox(width: 8),
-                                            Icon(Icons.directions_car, size: 13, color: Colors.grey.shade500),
+                                            Icon(Icons.directions_car, size: 13, color: AppTheme.textTertiary),
                                             const SizedBox(width: 2),
-                                            Text(locationProvider.formatDistance(distance), style: TextStyle(color: Colors.grey.shade500, fontSize: 13, fontWeight: FontWeight.w500)),
+                                            Text(locationProvider.formatDistance(distance), style: TextStyle(color: AppTheme.textTertiary, fontSize: 13, fontWeight: FontWeight.w500)),
                                           ],
                                         ],
                                       ),

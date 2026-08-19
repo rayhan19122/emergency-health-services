@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../../../../config/theme.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../models/organization_model.dart';
@@ -106,7 +107,7 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
           FilledButton(
             style: restoring
                 ? null
-                : FilledButton.styleFrom(backgroundColor: Colors.red),
+                : FilledButton.styleFrom(backgroundColor: AppTheme.danger),
             onPressed: () {
               Navigator.pop(ctx);
               _setUserAccess(user, restore: restoring);
@@ -156,7 +157,7 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
                 ? 'Platform access was restored for ${user.name ?? user.email}.'
                 : 'Platform access was revoked for ${user.name ?? user.email}.',
           ),
-          backgroundColor: Colors.green.shade700,
+          backgroundColor: AppTheme.success,
         ),
       );
     } on FirebaseException catch (e) {
@@ -165,14 +166,14 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
           ? 'Permission denied. Deploy the updated Firestore rules before changing user access.'
           : e.message ?? 'Unable to change this user\'s access.';
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message), backgroundColor: Colors.red.shade700),
+        SnackBar(content: Text(message), backgroundColor: AppTheme.danger),
       );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Unable to change this user\'s access: $e'),
-          backgroundColor: Colors.red.shade700,
+          backgroundColor: AppTheme.danger,
         ),
       );
     }
@@ -284,9 +285,9 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: Colors.amber.shade50,
+                    color: AppTheme.warningBg,
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.amber.shade200),
+                    border: Border.all(color: AppTheme.warningBorder),
                   ),
                   child: const Text(
                     'Temporary workaround for the old deployed Firestore rules. This role can manage both beds and tests; replace it after deploying the new rules.',
@@ -388,7 +389,7 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
                         const SizedBox(height: 4),
                         Text(
                           'Manage platform members, roles, and organization assignments. Search and counts cover loaded users.',
-                          style: TextStyle(color: Colors.grey.shade600),
+                          style: TextStyle(color: AppTheme.textSecondary),
                         ),
                       ],
                     ),
@@ -482,7 +483,7 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
                   Text(
                     '${filteredUsers.length} result${filteredUsers.length == 1 ? '' : 's'}',
                     style: TextStyle(
-                      color: Colors.grey.shade600,
+                      color: AppTheme.textSecondary,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -577,15 +578,15 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
         return Colors.purple.shade50;
       case 'hospital_admin':
       case 'bed_admin':
-        return Colors.blue.shade50;
+        return AppTheme.infoBg;
       case 'test_admin':
         return Colors.purple.shade50;
       case 'blood_bank_admin':
-        return Colors.red.shade50;
+        return AppTheme.dangerBg;
       case 'ambulance_admin':
-        return Colors.orange.shade50;
+        return AppTheme.warningBg;
       default:
-        return Colors.grey.shade50;
+        return AppTheme.background;
     }
   }
 }
@@ -729,7 +730,7 @@ class _UsersTable extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               color: user.organizationId == null
-                                  ? Colors.grey.shade500
+                                  ? AppTheme.textTertiary
                                   : null,
                             ),
                           ),
@@ -742,7 +743,7 @@ class _UsersTable extends StatelessWidget {
                             child: Icon(
                               Icons.warning_amber_rounded,
                               size: 18,
-                              color: Colors.orange.shade700,
+                              color: AppTheme.warning,
                             ),
                           ),
                         ],
@@ -826,7 +827,7 @@ class _MobileUserCard extends StatelessWidget {
                         Text(
                           user.email,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(color: Colors.grey.shade600),
+                          style: TextStyle(color: AppTheme.textSecondary),
                         ),
                       ],
                     ),
@@ -854,7 +855,7 @@ class _MobileUserCard extends StatelessWidget {
                 'Assigned Hospital / Organization',
                 style: Theme.of(
                   context,
-                ).textTheme.labelMedium?.copyWith(color: Colors.grey.shade600),
+                ).textTheme.labelMedium?.copyWith(color: AppTheme.textSecondary),
               ),
               const SizedBox(height: 3),
               Text(
@@ -866,7 +867,7 @@ class _MobileUserCard extends StatelessWidget {
                 Text(
                   'Invalid assignment - edit this user to select a compatible organization.',
                   style: TextStyle(
-                    color: Colors.orange.shade800,
+                    color: AppTheme.warning,
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
                   ),
@@ -949,22 +950,22 @@ class _ProfileBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isComplete ? Colors.green : Colors.orange;
+    final color = isComplete ? AppTheme.success : AppTheme.warning;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
       decoration: BoxDecoration(
-        color: color.shade50,
+        color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(999),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.circle, size: 7, color: color.shade600),
+          Icon(Icons.circle, size: 7, color: color),
           const SizedBox(width: 6),
           Text(
             isComplete ? 'Complete' : 'Incomplete',
             style: TextStyle(
-              color: color.shade800,
+              color: color,
               fontSize: 12,
               fontWeight: FontWeight.w600,
             ),
@@ -982,17 +983,17 @@ class _AccessBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isRevoked ? Colors.red : Colors.green;
+    final color = isRevoked ? AppTheme.danger : AppTheme.success;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
       decoration: BoxDecoration(
-        color: color.shade50,
+        color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(999),
       ),
       child: Text(
         isRevoked ? 'Revoked' : 'Active',
         style: TextStyle(
-          color: color.shade800,
+          color: color,
           fontSize: 12,
           fontWeight: FontWeight.w600,
         ),
@@ -1032,7 +1033,7 @@ class _UserActions extends StatelessWidget {
           icon: Icon(
             isRevoked ? Icons.lock_open_outlined : Icons.lock_outline,
             size: 19,
-            color: isCurrentUser || isRevoked ? null : Colors.red.shade400,
+            color: isCurrentUser || isRevoked ? null : AppTheme.danger,
           ),
           tooltip: isCurrentUser
               ? 'You cannot revoke your own platform access'
@@ -1072,7 +1073,7 @@ class _PaginationBar extends StatelessWidget {
         Expanded(
           child: Text(
             'Showing $start-$end of $total users',
-            style: TextStyle(color: Colors.grey.shade600),
+            style: TextStyle(color: AppTheme.textSecondary),
           ),
         ),
         Text(
@@ -1106,7 +1107,7 @@ class _EmptyUsersState extends StatelessWidget {
         padding: const EdgeInsets.all(48),
         child: Column(
           children: [
-            Icon(Icons.people_outline, size: 56, color: Colors.grey.shade300),
+            Icon(Icons.people_outline, size: 56, color: AppTheme.textTertiary),
             const SizedBox(height: 12),
             const Text(
               'No users match these filters',
@@ -1132,7 +1133,7 @@ class _UsersErrorState extends StatelessWidget {
         padding: const EdgeInsets.all(32),
         child: Column(
           children: [
-            Icon(Icons.error_outline, size: 48, color: Colors.red.shade300),
+            Icon(Icons.error_outline, size: 48, color: AppTheme.danger),
             const SizedBox(height: 12),
             Text(message, textAlign: TextAlign.center),
             const SizedBox(height: 16),

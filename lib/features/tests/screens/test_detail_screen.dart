@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../config/theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -210,7 +211,7 @@ class _TestDetailScreenState extends State<TestDetailScreen> {
               Icon(
                 Icons.science_outlined,
                 size: 56,
-                color: Colors.grey.shade400,
+                color: AppTheme.textTertiary,
               ),
               const SizedBox(height: 12),
               Text(_error ?? 'Diagnostic test not found'),
@@ -263,7 +264,7 @@ class _TestDetailScreenState extends State<TestDetailScreen> {
                             padding: const EdgeInsets.all(14),
                             decoration: BoxDecoration(
                               color: Theme.of(context).colorScheme.primary,
-                              borderRadius: BorderRadius.circular(14),
+                              borderRadius: BorderRadius.circular(16),
                             ),
                             child: Icon(
                               Icons.science,
@@ -338,8 +339,8 @@ class _TestDetailScreenState extends State<TestDetailScreen> {
                                 ? 'Available (${test.dailyCapacity} per day)'
                                 : 'Currently unavailable',
                             valueColor: test.isAvailable
-                                ? Colors.green.shade700
-                                : Colors.red.shade700,
+                                ? AppTheme.success
+                                : AppTheme.danger,
                           ),
                           _DetailRow(
                             label: 'Home collection',
@@ -347,7 +348,7 @@ class _TestDetailScreenState extends State<TestDetailScreen> {
                                 ? 'Available'
                                 : 'Not available',
                             valueColor: test.homeCollection
-                                ? Colors.green.shade700
+                                ? AppTheme.success
                                 : null,
                           ),
                           if (test.homeCollection &&
@@ -522,7 +523,7 @@ class _DetailRow extends StatelessWidget {
             child: Text(
               label,
               style: TextStyle(
-                color: Colors.grey.shade600,
+                color: AppTheme.textSecondary,
                 fontWeight: FontWeight.w500,
               ),
             ),

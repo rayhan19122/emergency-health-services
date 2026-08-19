@@ -23,9 +23,63 @@ class AppTheme {
   static const textTertiary = Color(0xFF8B99AF);
 
   // ── Semantic ──
+  static const info = primary;
   static const success = Color(0xFF1B873F);
   static const warning = Color(0xFFB35C00);
   static const danger = Color(0xFFC62828);
+
+  /// Soft tinted backgrounds for banners / info boxes, paired with the
+  /// semantic foreground colors above. Kept subtle to match the surface palette.
+  static const infoBg = Color(0xFFEAF2FE);
+  static const successBg = Color(0xFFE7F5EC);
+  static const warningBg = Color(0xFFFCF1E3);
+  static const dangerBg = Color(0xFFFCEBEB);
+
+  static const infoBorder = Color(0xFFC5DBF8);
+  static const successBorder = Color(0xFFBFE3CB);
+  static const warningBorder = Color(0xFFF3DBBC);
+  static const dangerBorder = Color(0xFFF3C9C9);
+
+  /// Canonical accent set for dashboard stat cards / category icons.
+  /// Brand-harmonized (blues, teal, controlled warm tones) so admin
+  /// surfaces stop pulling in the full-saturation Material rainbow.
+  static const accentBlue = primary;
+  static const accentTeal = secondary;
+  static const accentIndigo = Color(0xFF4C4FBF);
+  static const accentViolet = Color(0xFF7A45C9);
+  static const accentAmber = warning;
+  static const accentRed = danger;
+  static const accentGreen = success;
+
+  // ── Spacing scale ──
+  // A single 4-based spacing ramp. Use these instead of ad-hoc numbers so
+  // gutters, gaps, and padding stay consistent across screens.
+  static const double space4 = 4;
+  static const double space8 = 8;
+  static const double space12 = 12;
+  static const double space16 = 16;
+  static const double space20 = 20;
+  static const double space24 = 24;
+  static const double space32 = 32;
+  static const double space48 = 48;
+
+  /// Standard page gutter for scrollable content areas.
+  static const EdgeInsets pagePadding = EdgeInsets.all(space24);
+
+  // ── Radius scale ──
+  // Four steps only: small controls, cards/inputs, large containers, pills.
+  static const double radiusSm = 8;
+  static const double radiusMd = 12;
+  static const double radiusLg = 16;
+  static const double radiusPill = 999;
+
+  static final BorderRadius borderSm = BorderRadius.circular(radiusSm);
+  static final BorderRadius borderMd = BorderRadius.circular(radiusMd);
+  static final BorderRadius borderLg = BorderRadius.circular(radiusLg);
+  static final BorderRadius borderPill = BorderRadius.circular(radiusPill);
+
+  /// Width below which the top nav collapses into a drawer.
+  static const double navCollapseBreakpoint = 860;
 
   // ── Motion ──
   static const fast = Duration(milliseconds: 150);

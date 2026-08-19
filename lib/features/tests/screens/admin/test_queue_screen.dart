@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../config/theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -135,7 +136,7 @@ class _TestQueueScreenState extends State<TestQueueScreen> {
             child: const Text('Keep Serial'),
           ),
           FilledButton(
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            style: FilledButton.styleFrom(backgroundColor: AppTheme.danger),
             onPressed: () => Navigator.pop(dialogContext, true),
             child: const Text('Cancel Serial'),
           ),
@@ -232,7 +233,7 @@ class _TestQueueScreenState extends State<TestQueueScreen> {
                             const SizedBox(height: 4),
                             Text(
                               'Today, ${DateFormat('d MMMM yyyy').format(DateTime.now().toUtc().add(const Duration(hours: 6)))} • Live updates',
-                              style: TextStyle(color: Colors.grey.shade600),
+                              style: TextStyle(color: AppTheme.textSecondary),
                             ),
                           ],
                         ),
@@ -267,13 +268,13 @@ class _TestQueueScreenState extends State<TestQueueScreen> {
                         label: 'Serials Today',
                         value: '$todayTotal',
                         icon: Icons.confirmation_number,
-                        color: Colors.purple,
+                        color: AppTheme.accentViolet,
                       ),
                       _QueueStat(
                         label: 'Waiting',
                         value: '${waiting.length}',
                         icon: Icons.people_alt_outlined,
-                        color: Colors.orange,
+                        color: AppTheme.warning,
                       ),
                       _QueueStat(
                         label: 'Currently Called',
@@ -281,13 +282,13 @@ class _TestQueueScreenState extends State<TestQueueScreen> {
                             ? '-'
                             : '#${current.serialNumber}',
                         icon: Icons.campaign_outlined,
-                        color: Colors.blue,
+                        color: AppTheme.info,
                       ),
                       _QueueStat(
                         label: 'Completed',
                         value: '$completed',
                         icon: Icons.task_alt,
-                        color: Colors.green,
+                        color: AppTheme.success,
                       ),
                     ],
                   ),
@@ -360,7 +361,7 @@ class _QueueStat extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Text(label, style: TextStyle(color: Colors.grey.shade600)),
+                    Text(label, style: TextStyle(color: AppTheme.textSecondary)),
                   ],
                 ),
               ),
@@ -389,7 +390,7 @@ class _SerialCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.only(bottom: 10),
-      color: booking.isConfirmed ? Colors.blue.withValues(alpha: 0.07) : null,
+      color: booking.isConfirmed ? AppTheme.info.withValues(alpha: 0.07) : null,
       child: LayoutBuilder(
         builder: (context, constraints) {
           final details = Row(
@@ -419,13 +420,13 @@ class _SerialCard extends StatelessWidget {
                     if (booking.estimatedArrivalTime != null)
                       Text(
                         'Estimated arrival: ${DateFormat('h:mm a').format(booking.estimatedArrivalTime!)}',
-                        style: TextStyle(color: Colors.grey.shade600),
+                        style: TextStyle(color: AppTheme.textSecondary),
                       ),
                     if (booking.calledAt != null)
                       Text(
                         'Called: ${DateFormat('d MMM yyyy, h:mm:ss a').format(booking.calledAt!)}',
                         style: TextStyle(
-                          color: Colors.blue.shade700,
+                          color: AppTheme.info,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -433,7 +434,7 @@ class _SerialCard extends StatelessWidget {
                       Text(
                         'Completed: ${DateFormat('d MMM yyyy, h:mm:ss a').format(booking.completedAt!)}',
                         style: TextStyle(
-                          color: Colors.green.shade700,
+                          color: AppTheme.success,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -461,7 +462,7 @@ class _SerialCard extends StatelessWidget {
                 IconButton(
                   onPressed: isWorking ? null : onCancel,
                   tooltip: 'Cancel serial',
-                  icon: const Icon(Icons.close, color: Colors.red),
+                  icon: const Icon(Icons.close, color: AppTheme.danger),
                 ),
             ],
           );
@@ -498,7 +499,7 @@ class _EmptyQueue extends StatelessWidget {
         padding: const EdgeInsets.all(48),
         child: Column(
           children: [
-            Icon(Icons.people_outline, size: 60, color: Colors.grey.shade300),
+            Icon(Icons.people_outline, size: 60, color: AppTheme.textTertiary),
             const SizedBox(height: 12),
             const Text('No serials have been taken for this test today.'),
           ],

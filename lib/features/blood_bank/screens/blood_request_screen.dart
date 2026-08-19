@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import '../../../config/theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -231,7 +232,7 @@ class _BloodRequestScreenState extends State<BloodRequestScreen> {
                     Text(
                       _org!.name,
                       style: TextStyle(
-                        color: Colors.grey.shade600,
+                        color: AppTheme.textSecondary,
                         fontSize: 16,
                       ),
                     ),
@@ -253,7 +254,7 @@ class _BloodRequestScreenState extends State<BloodRequestScreen> {
                                 Text(s.bloodType),
                                 Text(
                                   '${s.availableUnits} units',
-                                  style: TextStyle(color: Colors.grey.shade500),
+                                  style: TextStyle(color: AppTheme.textTertiary),
                                 ),
                               ],
                             ),
@@ -298,7 +299,7 @@ class _BloodRequestScreenState extends State<BloodRequestScreen> {
                           return Container(
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                              color: Colors.red.shade50,
+                              color: AppTheme.dangerBg,
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Row(
@@ -402,7 +403,7 @@ class _BloodRequestScreenState extends State<BloodRequestScreen> {
                     Text(
                       'The blood bank will verify your request and call you before confirming.',
                       style: TextStyle(
-                        color: Colors.grey.shade500,
+                        color: AppTheme.textTertiary,
                         fontSize: 12,
                       ),
                       textAlign: TextAlign.center,

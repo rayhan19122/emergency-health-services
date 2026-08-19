@@ -139,7 +139,7 @@ class _SharedMapViewState extends State<SharedMapView> {
                               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                               decoration: BoxDecoration(
                                 color: m.markerColor,
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(12),
                                 boxShadow: [
                                   BoxShadow(
                                     color: m.markerColor.withValues(alpha: 0.4),
@@ -206,10 +206,10 @@ class _SharedMapViewState extends State<SharedMapView> {
         child: Center(
           child: Material(
             elevation: 4,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(12),
             color: Colors.white,
             child: InkWell(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(12),
               onTap: () {
                 marker.onTap?.call();
               },

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import '../../../config/theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../providers/location_provider.dart';
 import '../../../providers/organization_provider.dart';
 import '../../../shared/widgets/availability_badge.dart';
+import '../../../shared/widgets/empty_state.dart';
 import '../../../shared/widgets/map_view.dart';
 import '../../../shared/widgets/price_widget.dart';
 import '../../../shared/widgets/skeleton_loader.dart';
@@ -77,7 +79,7 @@ class _AmbulanceListingsScreenState extends State<AmbulanceListingsScreen> {
     }
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(24),
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 900),
@@ -86,7 +88,7 @@ class _AmbulanceListingsScreenState extends State<AmbulanceListingsScreen> {
             children: [
               Text('Emergency Ambulance', style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold)),
               const SizedBox(height: 4),
-              Text('Book the nearest available ambulance', style: TextStyle(color: Colors.grey.shade600)),
+              Text('Book the nearest available ambulance', style: TextStyle(color: AppTheme.textSecondary)),
               const SizedBox(height: 16),
               SortFilterBar(
                 currentSort: _sortOption,
@@ -120,17 +122,10 @@ class _AmbulanceListingsScreenState extends State<AmbulanceListingsScreen> {
               if (isLoading)
                 const ListingSkeletonList()
               else if (operators.isEmpty)
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(48),
-                    child: Column(
-                      children: [
-                        Icon(Icons.emergency, size: 64, color: Colors.grey.shade300),
-                        const SizedBox(height: 16),
-                        Text('No ambulance services found', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey.shade500)),
-                      ],
-                    ),
-                  ),
+                const EmptyState(
+                  icon: Icons.emergency_outlined,
+                  title: 'No ambulance services found',
+                  message: 'Try adjusting your filters or check back shortly.',
                 )
               else
                 ...operators.map((op) {
@@ -155,17 +150,17 @@ class _AmbulanceListingsScreenState extends State<AmbulanceListingsScreen> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(op.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                                      Text(op.name, style: Theme.of(context).textTheme.titleMedium),
                                       Row(
                                         children: [
-                                          Icon(Icons.location_on, size: 14, color: Colors.grey.shade500),
+                                          Icon(Icons.location_on, size: 14, color: AppTheme.textTertiary),
                                           const SizedBox(width: 4),
-                                          Expanded(child: Text(op.address, style: TextStyle(color: Colors.grey.shade600, fontSize: 13))),
+                                          Expanded(child: Text(op.address, style: TextStyle(color: AppTheme.textSecondary, fontSize: 13))),
                                           if (distance != null) ...[
                                             const SizedBox(width: 8),
-                                            Icon(Icons.directions_car, size: 13, color: Colors.grey.shade500),
+                                            Icon(Icons.directions_car, size: 13, color: AppTheme.textTertiary),
                                             const SizedBox(width: 2),
-                                            Text(locationProvider.formatDistance(distance), style: TextStyle(color: Colors.grey.shade500, fontSize: 13, fontWeight: FontWeight.w500)),
+                                            Text(locationProvider.formatDistance(distance), style: TextStyle(color: AppTheme.textTertiary, fontSize: 13, fontWeight: FontWeight.w500)),
                                           ],
                                         ],
                                       ),
@@ -184,16 +179,16 @@ class _AmbulanceListingsScreenState extends State<AmbulanceListingsScreen> {
                                   return Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                                     decoration: BoxDecoration(
-                                      color: a.isAvailable ? Colors.green.shade50 : Colors.grey.shade50,
+                                      color: a.isAvailable ? AppTheme.successBg : AppTheme.background,
                                       borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(color: a.isAvailable ? Colors.green.shade200 : Colors.grey.shade200),
+                                      border: Border.all(color: a.isAvailable ? AppTheme.successBorder : AppTheme.surfaceBorder),
                                     ),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Text('${a.type}  ', style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 13)),
                                         PriceWidget(price: a.baseFare, label: 'base'),
-                                        if (a.perKmRate != null) Text('  + ৳${a.perKmRate!.toStringAsFixed(0)}/km', style: TextStyle(color: Colors.grey.shade500, fontSize: 12)),
+                                        if (a.perKmRate != null) Text('  + ৳${a.perKmRate!.toStringAsFixed(0)}/km', style: TextStyle(color: AppTheme.textTertiary, fontSize: 12)),
                                       ],
                                     ),
                                   );

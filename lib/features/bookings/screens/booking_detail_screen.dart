@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import '../../../config/theme.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -115,7 +116,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
                               Text(
                                 'Live updates',
                                 style: TextStyle(
-                                  color: Colors.green.shade700,
+                                  color: AppTheme.success,
                                   fontSize: 11,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -134,7 +135,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
                                 .colorScheme
                                 .primaryContainer
                                 .withValues(alpha: 0.65),
-                            borderRadius: BorderRadius.circular(14),
+                            borderRadius: BorderRadius.circular(16),
                           ),
                           child: Column(
                             children: [
@@ -178,9 +179,9 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
                             width: double.infinity,
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              color: Colors.orange.shade50,
+                              color: AppTheme.warningBg,
                               borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: Colors.orange.shade200),
+                              border: Border.all(color: AppTheme.warningBorder),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -333,7 +334,7 @@ class _DetailRow extends StatelessWidget {
             child: Text(
               label,
               style: TextStyle(
-                color: Colors.grey.shade600,
+                color: AppTheme.textSecondary,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -368,7 +369,7 @@ class _DetailRowWidget extends StatelessWidget {
             child: Text(
               label,
               style: TextStyle(
-                color: Colors.grey.shade600,
+                color: AppTheme.textSecondary,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -414,14 +415,14 @@ class _HoldCountdownState extends State<_HoldCountdown> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: isExpired ? Colors.red.shade50 : Colors.blue.shade50,
+        color: isExpired ? AppTheme.dangerBg : AppTheme.infoBg,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
         children: [
           Icon(
             isExpired ? Icons.timer_off : Icons.timer,
-            color: isExpired ? Colors.red : Colors.blue,
+            color: isExpired ? AppTheme.danger : AppTheme.info,
           ),
           const SizedBox(width: 12),
           Text(
@@ -429,7 +430,7 @@ class _HoldCountdownState extends State<_HoldCountdown> {
                 ? 'Hold has expired'
                 : 'Hold expires in ${remaining.inMinutes} min ${remaining.inSeconds % 60} sec',
             style: TextStyle(
-              color: isExpired ? Colors.red.shade700 : Colors.blue.shade700,
+              color: isExpired ? AppTheme.danger : AppTheme.info,
               fontWeight: FontWeight.w600,
             ),
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../config/theme.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../models/ambulance_model.dart';
@@ -132,14 +133,14 @@ class _ManageFleetScreenState extends State<ManageFleetScreen> {
                               padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
                                 color: amb.isAvailable
-                                    ? Colors.green.shade50
-                                    : Colors.grey.shade100,
+                                    ? AppTheme.successBg
+                                    : AppTheme.background,
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Icon(
                                 Icons.emergency,
                                 color: amb.isAvailable
-                                    ? Colors.green
+                                    ? AppTheme.success
                                     : Colors.grey,
                                 size: 32,
                               ),
@@ -164,7 +165,7 @@ class _ManageFleetScreenState extends State<ManageFleetScreen> {
                                     Text(
                                       '+ ৳${amb.perKmRate!.toStringAsFixed(0)}/km',
                                       style: TextStyle(
-                                        color: Colors.grey.shade500,
+                                        color: AppTheme.textTertiary,
                                       ),
                                     ),
                                 ],
@@ -183,7 +184,7 @@ class _ManageFleetScreenState extends State<ManageFleetScreen> {
                                   style: TextStyle(
                                     fontSize: 12,
                                     color: amb.isAvailable
-                                        ? Colors.green
+                                        ? AppTheme.success
                                         : Colors.grey,
                                   ),
                                 ),
@@ -195,7 +196,7 @@ class _ManageFleetScreenState extends State<ManageFleetScreen> {
                               onPressed: () => _showForm(existing: amb),
                             ),
                             IconButton(
-                              icon: const Icon(Icons.delete, color: Colors.red),
+                              icon: const Icon(Icons.delete, color: AppTheme.danger),
                               onPressed: () async {
                                 final organizationId = _orgId;
                                 final generation = _scopeGeneration;

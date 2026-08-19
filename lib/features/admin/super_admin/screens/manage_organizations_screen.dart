@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../config/theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -38,7 +39,7 @@ class _ManageOrganizationsScreenState extends State<ManageOrganizationsScreen> {
             child: const Text('Cancel'),
           ),
           FilledButton(
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            style: FilledButton.styleFrom(backgroundColor: AppTheme.danger),
             onPressed: () async {
               Navigator.pop(ctx);
               final archivedBy = context.read<AuthProvider>().user?.uid;
@@ -166,7 +167,7 @@ class _ManageOrganizationsScreenState extends State<ManageOrganizationsScreen> {
                         ),
                         Text(
                           '${organizations.length} organization${organizations.length == 1 ? '' : 's'}',
-                          style: TextStyle(color: Colors.grey.shade600),
+                          style: TextStyle(color: AppTheme.textSecondary),
                         ),
                       ],
                     ),
@@ -232,17 +233,17 @@ class _ManageOrganizationsScreenState extends State<ManageOrganizationsScreen> {
                       onTap: org.isActive ? () => _showEditDialog(org) : null,
                       leading: CircleAvatar(
                         backgroundColor: org.isArchiving || org.archived
-                            ? Colors.grey.shade200
+                            ? AppTheme.surfaceBorder
                             : org.verified
-                            ? Colors.green.shade50
-                            : Colors.orange.shade50,
+                            ? AppTheme.successBg
+                            : AppTheme.warningBg,
                         child: Icon(
                           _orgIcon(org.type),
                           color: org.isArchiving || org.archived
                               ? Colors.grey
                               : org.verified
-                              ? Colors.green
-                              : Colors.orange,
+                              ? AppTheme.success
+                              : AppTheme.warning,
                         ),
                       ),
                       title: Text(
@@ -277,16 +278,16 @@ class _ManageOrganizationsScreenState extends State<ManageOrganizationsScreen> {
                                   : 'Pending',
                             ),
                             backgroundColor: org.archived || org.isArchiving
-                                ? Colors.grey.shade100
+                                ? AppTheme.background
                                 : org.verified
-                                ? Colors.green.shade50
-                                : Colors.orange.shade50,
+                                ? AppTheme.successBg
+                                : AppTheme.warningBg,
                             side: BorderSide(
                               color: org.archived || org.isArchiving
                                   ? Colors.grey
                                   : org.verified
-                                  ? Colors.green
-                                  : Colors.orange,
+                                  ? AppTheme.success
+                                  : AppTheme.warning,
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -298,8 +299,8 @@ class _ManageOrganizationsScreenState extends State<ManageOrganizationsScreen> {
                                   ? Icons.lock_reset_outlined
                                   : Icons.archive_outlined,
                               color: org.archived || org.isArchiving
-                                  ? Colors.blue.shade600
-                                  : Colors.red.shade400,
+                                  ? AppTheme.info
+                                  : AppTheme.danger,
                             ),
                             tooltip: org.archived
                                 ? 'Restore Organization'

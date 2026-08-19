@@ -6,6 +6,12 @@
       "runtimeExecutable": "flutter",
       "runtimeArgs": ["run", "-d", "web-server", "--web-port=8087"],
       "port": 8087
+    },
+    {
+      "name": "flutter-web-profile",
+      "runtimeExecutable": "flutter",
+      "runtimeArgs": ["run", "-d", "web-server", "--web-port=8088", "--profile"],
+      "port": 8088
     }
   ]
 }

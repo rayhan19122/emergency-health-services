@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../config/theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -7,6 +8,7 @@ import '../../../providers/location_provider.dart';
 import '../../../providers/organization_provider.dart';
 import '../../../shared/widgets/app_animations.dart';
 import '../../../shared/widgets/availability_badge.dart';
+import '../../../shared/widgets/empty_state.dart';
 import '../../../shared/widgets/map_view.dart';
 import '../../../shared/widgets/price_widget.dart';
 import '../../../shared/widgets/skeleton_loader.dart';
@@ -105,7 +107,7 @@ class _BedListingsScreenState extends State<BedListingsScreen> {
     final isLoading = orgProvider.isLoading || bedProvider.isLoading;
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(24),
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 900),
@@ -114,7 +116,7 @@ class _BedListingsScreenState extends State<BedListingsScreen> {
             children: [
               Text('Emergency Beds', style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold)),
               const SizedBox(height: 4),
-              Text('Find available hospital beds nearby', style: TextStyle(color: Colors.grey.shade600)),
+              Text('Find available hospital beds nearby', style: TextStyle(color: AppTheme.textSecondary)),
               const SizedBox(height: 16),
               SortFilterBar(
                 currentSort: _sortOption,
@@ -171,19 +173,19 @@ class _BedListingsScreenState extends State<BedListingsScreen> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(hospital.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                                      Text(hospital.name, style: Theme.of(context).textTheme.titleMedium),
                                       const SizedBox(height: 4),
                                       Row(
                                         children: [
-                                          Icon(Icons.location_on, size: 14, color: Colors.grey.shade500),
+                                          Icon(Icons.location_on, size: 14, color: AppTheme.textTertiary),
                                           const SizedBox(width: 4),
-                                          Expanded(child: Text(hospital.address, style: TextStyle(color: Colors.grey.shade600, fontSize: 13))),
+                                          Expanded(child: Text(hospital.address, style: TextStyle(color: AppTheme.textSecondary, fontSize: 13))),
                                           if (distance != null) ...[
                                             const SizedBox(width: 8),
-                                            Icon(Icons.directions_car, size: 13, color: Colors.grey.shade500),
+                                            Icon(Icons.directions_car, size: 13, color: AppTheme.textTertiary),
                                             const SizedBox(width: 2),
                                             Text(locationProvider.formatDistance(distance),
-                                                style: TextStyle(color: Colors.grey.shade500, fontSize: 13, fontWeight: FontWeight.w500)),
+                                                style: TextStyle(color: AppTheme.textTertiary, fontSize: 13, fontWeight: FontWeight.w500)),
                                           ],
                                         ],
                                       ),
@@ -218,7 +220,15 @@ class _BedListingsScreenState extends State<BedListingsScreen> {
                                         const SizedBox(width: 7),
                                         Text('${bed.type}  ', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: bedColor)),
                                         PriceWidget(price: bed.pricePerDay, label: 'day'),
-                                        Text('  ·  ${bed.availableBeds} left', style: TextStyle(fontSize: 12, color: Colors.grey.shade600)),
+                                        const Text('  ·  ', style: TextStyle(fontSize: 12, color: AppTheme.textTertiary)),
+                                        Text(
+                                          '${bed.availableBeds} left',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w700,
+                                            color: _availabilityColor(bed.availableBeds),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   );
@@ -248,6 +258,14 @@ class _BedListingsScreenState extends State<BedListingsScreen> {
     );
   }
 
+  // Emphasis color for the "N left" count so scarce beds stand out:
+  // critically low → red, limited → amber, plenty → green.
+  Color _availabilityColor(int available) {
+    if (available <= 3) return AppTheme.danger;
+    if (available <= 10) return AppTheme.warning;
+    return AppTheme.success;
+  }
+
   // Severity-based color for a bed type: routine → critical.
   Color _bedTypeColor(String type) {
     switch (type.trim().toUpperCase()) {
@@ -267,17 +285,10 @@ class _BedListingsScreenState extends State<BedListingsScreen> {
   }
 
   Widget _emptyState() {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(48),
-        child: Column(
-          children: [
-            Icon(Icons.bed, size: 64, color: Colors.grey.shade300),
-            const SizedBox(height: 16),
-            Text('No hospitals found nearby', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey.shade500)),
-          ],
-        ),
-      ),
+    return const EmptyState(
+      icon: Icons.bed_outlined,
+      title: 'No hospitals found nearby',
+      message: 'Try adjusting your filters or check back shortly.',
     );
   }
 }

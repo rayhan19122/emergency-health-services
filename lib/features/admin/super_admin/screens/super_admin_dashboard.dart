@@ -3,8 +3,10 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/link.dart';
 
+import '../../../../config/theme.dart';
 import '../../../../providers/organization_provider.dart';
 import '../../../../services/seed_data_service.dart';
+import '../../../../shared/widgets/stat_card.dart';
 
 Uri _dashboardUri(String route) => Uri.parse(route);
 
@@ -62,21 +64,21 @@ class _SuperAdminDashboardState extends State<SuperAdminDashboard> {
                     title: 'Hospitals',
                     count: hospitals,
                     icon: Icons.local_hospital,
-                    color: Colors.blue,
+                    color: AppTheme.accentBlue,
                     route: '/super-admin/organizations?type=hospital',
                   ),
                   _StatCard(
                     title: 'Blood Banks',
                     count: bloodBanks,
                     icon: Icons.bloodtype,
-                    color: Colors.red,
+                    color: AppTheme.accentRed,
                     route: '/super-admin/organizations?type=blood_bank',
                   ),
                   _StatCard(
                     title: 'Ambulance Operators',
                     count: ambulanceOps,
                     icon: Icons.emergency,
-                    color: Colors.orange,
+                    color: AppTheme.accentAmber,
                     route:
                         '/super-admin/organizations?type=ambulance_operator',
                   ),
@@ -84,7 +86,7 @@ class _SuperAdminDashboardState extends State<SuperAdminDashboard> {
                     title: 'Total Organizations',
                     count: orgProvider.organizations.length,
                     icon: Icons.business,
-                    color: Colors.teal,
+                    color: AppTheme.accentTeal,
                     route: '/super-admin/organizations',
                   ),
                 ],
@@ -146,43 +148,17 @@ class _StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Link preserves web "open in new tab" affordance; the shared StatCard
+    // provides the visual.
     return Link(
       uri: _dashboardUri(route),
-      builder: (context, _) => SizedBox(
+      builder: (context, _) => StatCard(
+        title: title,
+        value: '$count',
+        icon: icon,
+        accent: color,
         width: 200,
-        child: Card(
-          clipBehavior: Clip.antiAlias,
-          child: InkWell(
-            onTap: () => context.push(route),
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Icon(icon, color: color, size: 32),
-                      const Spacer(),
-                      Icon(
-                        Icons.arrow_outward,
-                        color: Colors.grey.shade400,
-                        size: 18,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    '$count',
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(title, style: TextStyle(color: Colors.grey.shade600)),
-                ],
-              ),
-            ),
-          ),
-        ),
+        onTap: () => context.push(route),
       ),
     );
   }
@@ -231,7 +207,7 @@ class _ActionCard extends StatelessWidget {
                       ),
                       Text(
                         description,
-                        style: TextStyle(color: Colors.grey.shade600),
+                        style: TextStyle(color: AppTheme.textSecondary),
                       ),
                     ],
                   ),
@@ -239,7 +215,7 @@ class _ActionCard extends StatelessWidget {
                 Icon(
                   Icons.arrow_forward_ios,
                   size: 16,
-                  color: Colors.grey.shade400,
+                  color: AppTheme.textTertiary,
                 ),
               ],
             ),
@@ -296,7 +272,7 @@ class _SeedDataCardState extends State<_SeedDataCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.amber.shade50,
+      color: AppTheme.warningBg,
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -304,7 +280,7 @@ class _SeedDataCardState extends State<_SeedDataCard> {
           children: [
             Row(
               children: [
-                Icon(Icons.dataset, size: 32, color: Colors.amber.shade800),
+                Icon(Icons.dataset, size: 32, color: AppTheme.warning),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
@@ -318,7 +294,7 @@ class _SeedDataCardState extends State<_SeedDataCard> {
                       const SizedBox(height: 4),
                       Text(
                         'Load demo data with sample hospitals, blood banks, and ambulance operators to get started.',
-                        style: TextStyle(color: Colors.grey.shade700),
+                        style: TextStyle(color: AppTheme.textSecondary),
                       ),
                     ],
                   ),
@@ -333,8 +309,8 @@ class _SeedDataCardState extends State<_SeedDataCard> {
                   _message!,
                   style: TextStyle(
                     color: _message!.startsWith('Error')
-                        ? Colors.red
-                        : Colors.green.shade700,
+                        ? AppTheme.danger
+                        : AppTheme.success,
                     fontWeight: FontWeight.w500,
                   ),
                 ),

@@ -6,6 +6,7 @@ import '../../../config/theme.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../shared/utils/validators.dart';
 import '../../../shared/widgets/app_animations.dart';
+import '../../../shared/widgets/app_banner.dart';
 
 /// Unified login screen with Email/Password and Google Sign-In.
 class LoginScreen extends StatefulWidget {
@@ -280,7 +281,7 @@ class _LoginFormState extends State<_LoginForm> {
               ),
               child: Text(
                 'Forgot password?',
-                style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
+                style: TextStyle(fontSize: 13, color: AppTheme.textSecondary),
               ),
             ),
           ),
@@ -289,34 +290,7 @@ class _LoginFormState extends State<_LoginForm> {
           if (auth.error != null)
             Padding(
               padding: const EdgeInsets.only(bottom: 12),
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.red.shade50,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.red.shade200),
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.error_outline,
-                      size: 18,
-                      color: Colors.red.shade700,
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        auth.error!,
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.red.shade700,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              child: AppBanner.danger(auth.error!),
             ),
 
           // Sign-in button
@@ -344,15 +318,15 @@ class _LoginFormState extends State<_LoginForm> {
           // Divider
           Row(
             children: [
-              Expanded(child: Divider(color: Colors.grey.shade300)),
+              Expanded(child: Divider(color: AppTheme.surfaceBorder)),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   'or',
-                  style: TextStyle(color: Colors.grey.shade500, fontSize: 13),
+                  style: TextStyle(color: AppTheme.textTertiary, fontSize: 13),
                 ),
               ),
-              Expanded(child: Divider(color: Colors.grey.shade300)),
+              Expanded(child: Divider(color: AppTheme.surfaceBorder)),
             ],
           ),
           const SizedBox(height: 16),
@@ -377,7 +351,7 @@ class _LoginFormState extends State<_LoginForm> {
             children: [
               Text(
                 "Don't have an account? ",
-                style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
+                style: TextStyle(color: AppTheme.textSecondary, fontSize: 13),
               ),
               GestureDetector(
                 onTap: widget.onSwitchToRegister,
@@ -525,34 +499,7 @@ class _RegisterFormState extends State<_RegisterForm> {
           if (auth.error != null)
             Padding(
               padding: const EdgeInsets.only(bottom: 12),
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.red.shade50,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.red.shade200),
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.error_outline,
-                      size: 18,
-                      color: Colors.red.shade700,
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        auth.error!,
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.red.shade700,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              child: AppBanner.danger(auth.error!),
             ),
 
           // Register button
@@ -580,15 +527,15 @@ class _RegisterFormState extends State<_RegisterForm> {
           // Divider
           Row(
             children: [
-              Expanded(child: Divider(color: Colors.grey.shade300)),
+              Expanded(child: Divider(color: AppTheme.surfaceBorder)),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   'or',
-                  style: TextStyle(color: Colors.grey.shade500, fontSize: 13),
+                  style: TextStyle(color: AppTheme.textTertiary, fontSize: 13),
                 ),
               ),
-              Expanded(child: Divider(color: Colors.grey.shade300)),
+              Expanded(child: Divider(color: AppTheme.surfaceBorder)),
             ],
           ),
           const SizedBox(height: 16),
@@ -615,7 +562,7 @@ class _RegisterFormState extends State<_RegisterForm> {
             children: [
               Text(
                 'Already have an account? ',
-                style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
+                style: TextStyle(color: AppTheme.textSecondary, fontSize: 13),
               ),
               GestureDetector(
                 onTap: widget.onSwitchToLogin,
@@ -678,7 +625,7 @@ class _ForgotPasswordFormState extends State<_ForgotPasswordForm> {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.mark_email_read, size: 56, color: Colors.green.shade600),
+          Icon(Icons.mark_email_read, size: 56, color: AppTheme.success),
           const SizedBox(height: 16),
           Text(
             'Reset email sent!',
@@ -690,7 +637,7 @@ class _ForgotPasswordFormState extends State<_ForgotPasswordForm> {
           Text(
             'Check your inbox at ${_emailController.text} and follow the link to reset your password.',
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
+            style: TextStyle(color: AppTheme.textSecondary, fontSize: 14),
           ),
           const SizedBox(height: 24),
           SizedBox(
@@ -714,7 +661,7 @@ class _ForgotPasswordFormState extends State<_ForgotPasswordForm> {
         children: [
           Text(
             'Enter your email and we\'ll send you a link to reset your password.',
-            style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
+            style: TextStyle(color: AppTheme.textSecondary, fontSize: 14),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 20),
@@ -735,34 +682,7 @@ class _ForgotPasswordFormState extends State<_ForgotPasswordForm> {
           if (auth.error != null)
             Padding(
               padding: const EdgeInsets.only(bottom: 12),
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.red.shade50,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.red.shade200),
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.error_outline,
-                      size: 18,
-                      color: Colors.red.shade700,
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        auth.error!,
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.red.shade700,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              child: AppBanner.danger(auth.error!),
             ),
 
           SizedBox(

@@ -10,9 +10,14 @@ import '../../../../features/blood_bank/providers/blood_provider.dart';
 import '../../../../features/tests/providers/test_provider.dart';
 import '../../../../models/booking_request_model.dart';
 import '../../../../models/organization_model.dart';
+import '../../../../config/theme.dart';
 import '../../../../providers/auth_provider.dart';
 import '../../../../providers/booking_provider.dart';
 import '../../../../providers/organization_provider.dart';
+import '../../../../shared/widgets/app_banner.dart';
+import '../../../../shared/widgets/info_chip.dart';
+import '../../../../shared/widgets/section_header.dart';
+import '../../../../shared/widgets/stat_card.dart';
 
 class OrgAdminDashboard extends StatefulWidget {
   const OrgAdminDashboard({super.key});
@@ -286,105 +291,105 @@ class _OrgAdminDashboardState extends State<OrgAdminDashboard> {
                   runSpacing: 12,
                   children: [
                     if (handlesBookings) ...[
-                      _StatCard(
+                      StatCard(
                         title: 'Pending',
                         value: '$pending',
                         icon: Icons.pending_actions,
-                        color: Colors.orange,
+                        accent: AppTheme.accentAmber,
                         onTap: () => context.push(requestRoute),
                       ),
-                      _StatCard(
+                      StatCard(
                         title: 'Confirmed',
                         value: '$confirmed',
                         icon: Icons.verified,
-                        color: Colors.blue,
+                        accent: AppTheme.accentBlue,
                         onTap: () => context.push(requestRoute),
                       ),
-                      _StatCard(
+                      StatCard(
                         title: 'Today',
                         value: '$today',
                         icon: Icons.today,
-                        color: Colors.blue,
+                        accent: AppTheme.accentBlue,
                         onTap: () => context.push(requestRoute),
                       ),
-                      _StatCard(
+                      StatCard(
                         title: 'Closed',
                         value: '$terminal',
                         icon: Icons.task_alt,
-                        color: Colors.green,
+                        accent: AppTheme.accentGreen,
                         onTap: () => context.push(requestRoute),
                       ),
                     ],
                     if (handlesDiagnosticQueue) ...[
-                      _StatCard(
+                      StatCard(
                         title: 'Waiting',
                         value: '$diagnosticWaiting',
                         icon: Icons.people_alt_outlined,
-                        color: Colors.orange,
+                        accent: AppTheme.accentAmber,
                         onTap: () =>
                             context.push('/admin/test-queue?status=waiting'),
                       ),
-                      _StatCard(
+                      StatCard(
                         title: 'Called',
                         value: '$diagnosticCalled',
                         icon: Icons.campaign_outlined,
-                        color: Colors.blue,
+                        accent: AppTheme.accentBlue,
                         onTap: () =>
                             context.push('/admin/test-queue?status=called'),
                       ),
-                      _StatCard(
+                      StatCard(
                         title: 'Diagnostic Today',
                         value: '$diagnosticToday',
                         icon: Icons.today,
-                        color: Colors.purple,
+                        accent: AppTheme.accentViolet,
                         onTap: () =>
                             context.push('/admin/test-queue?status=waiting'),
                       ),
-                      _StatCard(
+                      StatCard(
                         title: 'Completed',
                         value: '$diagnosticCompleted',
                         icon: Icons.task_alt,
-                        color: Colors.green,
+                        accent: AppTheme.accentGreen,
                         onTap: () =>
                             context.push('/admin/test-queue?status=completed'),
                       ),
                     ],
                     if (auth.isBedAdmin)
-                      _StatCard(
+                      StatCard(
                         title: 'Available Beds',
                         value: '$availableBeds/$totalBeds',
                         icon: Icons.bed,
-                        color: Colors.indigo,
+                        accent: AppTheme.accentIndigo,
                         onTap: () => context.push('/admin/beds'),
                       ),
                     if (auth.isTestAdmin)
-                      _StatCard(
+                      StatCard(
                         title: 'Tests Listed',
                         value: '${tests.length}',
                         icon: Icons.science,
-                        color: Colors.purple,
+                        accent: AppTheme.accentViolet,
                         onTap: () => context.push('/admin/tests'),
                       ),
                     if (auth.isBloodBankAdmin)
-                      _StatCard(
+                      StatCard(
                         title: 'Blood Units',
                         value: '$availableUnits/$totalUnits',
                         icon: Icons.bloodtype,
-                        color: Colors.red,
+                        accent: AppTheme.accentRed,
                         onTap: () => context.push('/admin/blood-stock'),
                       ),
                     if (auth.isAmbulanceAdmin)
-                      _StatCard(
+                      StatCard(
                         title: 'Available Fleet',
                         value: '$availableAmbulances/${ambulances.length}',
                         icon: Icons.emergency,
-                        color: Colors.deepOrange,
+                        accent: AppTheme.accentRed,
                         onTap: () => context.push('/admin/ambulances'),
                       ),
                   ],
                 ),
                 const SizedBox(height: 24),
-                _SectionTitle(
+                SectionHeader(
                   title: 'Quick Actions',
                   subtitle: handlesBookings && !handlesDiagnosticQueue
                       ? 'Update availability first, then handle incoming requests.'
@@ -441,16 +446,14 @@ class _OrgAdminDashboardState extends State<OrgAdminDashboard> {
                 ),
                 if (handlesBookings && _bookingsError != null) ...[
                   const SizedBox(height: 16),
-                  _ErrorBanner(
-                    message: _bookingsError!.contains('permission-denied')
+                  AppBanner.danger(_bookingsError!.contains('permission-denied')
                         ? 'Booking information is unavailable because the Firestore rules for this new role have not been deployed yet.'
                         : 'Unable to receive live booking updates: $_bookingsError',
                   ),
                 ],
                 if (handlesDiagnosticQueue && _diagnosticError != null) ...[
                   const SizedBox(height: 16),
-                  _ErrorBanner(
-                    message: _diagnosticError!.contains('permission-denied')
+                  AppBanner.danger(_diagnosticError!.contains('permission-denied')
                         ? 'The diagnostic queue cannot be read. Confirm this account is assigned as Diagnostic Test Admin for ${_org!.name}.'
                         : 'Unable to receive live diagnostic queue updates: $_diagnosticError',
                   ),
@@ -528,11 +531,11 @@ class _DashboardHeader extends StatelessWidget {
                     spacing: 12,
                     runSpacing: 8,
                     children: [
-                      _InfoChip(icon: Icons.location_on, label: org.address),
-                      _InfoChip(icon: Icons.phone, label: org.phone),
+                      InfoChip(icon: Icons.location_on, label: org.address),
+                      InfoChip(icon: Icons.phone, label: org.phone),
                       if (org.email != null && org.email!.trim().isNotEmpty)
-                        _InfoChip(icon: Icons.email, label: org.email!),
-                      _InfoChip(
+                        InfoChip(icon: Icons.email, label: org.email!),
+                      InfoChip(
                         icon: org.verified
                             ? Icons.verified
                             : Icons.warning_amber,
@@ -555,115 +558,6 @@ class _DashboardHeader extends StatelessWidget {
                   : const Icon(Icons.refresh),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _InfoChip extends StatelessWidget {
-  final IconData icon;
-  final String label;
-
-  const _InfoChip({required this.icon, required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.8),
-        borderRadius: BorderRadius.circular(999),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 14, color: Theme.of(context).colorScheme.primary),
-          const SizedBox(width: 6),
-          Flexible(
-            child: Text(label, style: Theme.of(context).textTheme.bodySmall),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _SectionTitle extends StatelessWidget {
-  final String title;
-  final String subtitle;
-
-  const _SectionTitle({required this.title, required this.subtitle});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 4),
-        Text(subtitle, style: TextStyle(color: Colors.grey.shade600)),
-      ],
-    );
-  }
-}
-
-class _StatCard extends StatelessWidget {
-  final String title;
-  final String value;
-  final IconData icon;
-  final Color color;
-  final VoidCallback onTap;
-
-  const _StatCard({
-    required this.title,
-    required this.value,
-    required this.icon,
-    required this.color,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 180,
-      child: Card(
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Icon(icon, color: color, size: 28),
-                    const Spacer(),
-                    Icon(
-                      Icons.arrow_outward,
-                      size: 16,
-                      color: Colors.grey.shade400,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  value,
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(title, style: TextStyle(color: Colors.grey.shade600)),
-              ],
-            ),
-          ),
         ),
       ),
     );
@@ -749,7 +643,7 @@ class _AdminActionCard extends StatelessWidget {
                       Text(
                         description,
                         style: TextStyle(
-                          color: Colors.grey.shade600,
+                          color: AppTheme.textSecondary,
                           fontSize: 13,
                         ),
                       ),
@@ -759,33 +653,13 @@ class _AdminActionCard extends StatelessWidget {
                 Icon(
                   Icons.arrow_forward_ios,
                   size: 16,
-                  color: Colors.grey.shade400,
+                  color: AppTheme.textTertiary,
                 ),
               ],
             ),
           ),
         ),
       ),
-    );
-  }
-}
-
-class _ErrorBanner extends StatelessWidget {
-  final String message;
-
-  const _ErrorBanner({required this.message});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.red.shade50,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.red.shade100),
-      ),
-      child: Text(message, style: TextStyle(color: Colors.red.shade800)),
     );
   }
 }
